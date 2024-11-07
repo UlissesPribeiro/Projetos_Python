@@ -78,3 +78,19 @@ for i in range(len(traços)):
   for j in range(len(media)):
     if i == j:
       print(traços[i], "{:.3f}".format(media[j]))
+
+#Gráfico com os dados:
+
+import matplotlib.pyplot as plt
+
+categorias = ['Extroversão', 'Afabilidade', 'Conscienciosidade', 'Abertura', 'Neuroticismo']
+valores = [1.834, 2.742, 2.505, 2.554, 2.244]
+plt.figure(figsize=(10, 6))
+plt.bar(categorias, valores, color='skyblue', edgecolor='black')
+plt.xlabel('Big Five')
+plt.ylabel('Resultados')
+plt.title('Padrão Geral de Personalidade da Turma')
+
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
