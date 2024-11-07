@@ -1,0 +1,80 @@
+def converter_resposta(resposta, polo):
+    if polo == 1:  
+        return resposta - 1
+    else:  
+        return 5 - resposta
+
+def calcular_pontuacao(respostas, traço):
+    soma = 0
+    n = 0
+    indice = 0
+    for questão in questoes:
+        if questão[0] == traço:
+            resposta = respostas[indice]
+            polo = questão[1]
+            pi = converter_resposta(resposta, polo)
+            soma += pi
+            n += 1
+        indice += 1  
+    return soma / n
+
+traços = ["Extroversão", "Afabilidade", "Conscienciosidade", "Abertura", "Neuroticismo"]
+pessoa = 1
+soma_total = [0] * 5
+questoes = [
+    [0, 1], [1, -1], [1, -1], [2, 1], [0, 1], [2, 1], [4, 1], [1, 1], [3, 1], [4, 1],
+    [3, 1], [0, -1], [3, 1], [4, -1], [1, 1], [0, -1], [2, -1], [1, 1], [2, -1], [2, 1],
+    [4, -1], [2, -1], [4, -1], [3, -1], [3, 1], [0, 1], [2, 1], [1, -1], [0, 1], [1, -1],
+    [2, 1], [2, 1], [3, 1], [4, 1], [3, 1], [4, 1], [0, 1], [2, -1], [3, 1], [1, 1], [4, 1],
+    [0, -1], [3, -1], [3, 1]
+]
+
+while True:
+    respostas = [int(i) for i in input().split() if i]
+    if len(respostas) < 44 or len(respostas) > 44:
+      break
+    else:
+      print("-----------------------------------------------------")
+      print(f"Divisão em 3 faixas para a pessoa {pessoa}:")
+      mais_acentuados = []
+      acentuados_oposto = []
+      medianos = []
+      for i in range(len(traços)):
+        pontuação = calcular_pontuacao(respostas, i)
+        for j in range(len(soma_total)):
+          if j == i:
+            soma_total[j] += pontuação
+        if pontuação > 2.5:
+            mais_acentuados.append((traços[i], pontuação))
+        elif pontuação < 1.5:
+            acentuados_oposto.append((traços[i], pontuação))
+        else:
+            medianos.append((traços[i], pontuação))
+      print("Traços mais acentuados (pontuação > 2.5):")
+      for traço, pontuação in mais_acentuados:
+        print(f"  {traço}\t{pontuação:.3f}")
+      print("Traços acentuados no polo oposto (pontuação < 1.5):")
+      for traço, pontuação in acentuados_oposto:
+        print(f"  {traço}\t{pontuação:.3f}")
+      print("Traços medianos (pontuação entre 1.5 e 2.5):")
+      for traço, pontuação in medianos:
+        print(f"  {traço}\t{pontuação:.3f}")
+      pessoa += 1
+      
+print()
+print("Soma de todos os traços da turma:")
+for i in range(len(traços)):
+  for j in range(len(soma_total)):
+    if i == j:
+      print(traços[i], "{:.3f}".format(soma_total[j]))
+print()
+print("Média geral dos traços da turma:")
+media = [0] * 5
+for i in range(len(soma_total)):
+  for j in range(len(media)):
+    if i == j:
+      media[j] = soma_total[i] / 61
+for i in range(len(traços)):
+  for j in range(len(media)):
+    if i == j:
+      print(traços[i], "{:.3f}".format(media[j]))
